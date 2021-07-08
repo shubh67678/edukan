@@ -5,7 +5,8 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
-const Product = () => {
+const Product = ({ product }) => {
+	// console.log(product);
 	return (
 		<Card style={{ width: "18rem" }}>
 			<Card.Img
@@ -13,10 +14,9 @@ const Product = () => {
 				src="https://m.media-amazon.com/images/I/41Leu3gBUFL.jpg"
 			/>
 			<Card.Body>
-				<Card.Title>Shoes</Card.Title>
+				<Card.Title>{product.name}</Card.Title>
 				<Card.Text className="text-secondary">
-					This is the description of the shoes As a sample of the data
-					we will get
+					{product.description}
 				</Card.Text>
 				<Container fluid="sm">
 					<Row>
@@ -26,7 +26,7 @@ const Product = () => {
 							</Button>
 						</Col>
 						<Col className="mt-2">
-							<h4>Rs 20000</h4>
+							<h5>Rs {product.price}</h5>
 						</Col>
 					</Row>
 				</Container>
