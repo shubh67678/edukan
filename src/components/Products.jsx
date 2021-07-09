@@ -8,61 +8,26 @@ import { Container, Row, Col } from "react-bootstrap";
 // import Grid from "react-bootstrap/Grid";
 // import Col from "react-bootstrap/Col";
 import Product from "../components/Product";
+import axios from "axios";
 
 class Products extends Component {
 	state = {
-		products: [
-			{
-				id: 1,
-				name: "Shoes",
-				description:
-					" Lorem ipsum, dolor sit amet consectetur adipisicing elit. Impedit eligendi perspiciatis quisquam quam molestias ratione libero saepe. Soluta placeat temporibus excepturi architecto, dolorum ipsa laboriosam, porro magnam, hic aut quaerat.",
-				price: 100,
-			},
-			{
-				id: 2,
-				name: "Mac book",
-				description:
-					" Lorem ipsum, dolor sit amet consectetur adipisicing elit. Impedit eligendi perspiciatis quisquam quam molestias ratione libero saepe. Soluta placeat temporibus excepturi architecto, dolorum ipsa laboriosam, porro magnam, hic aut quaerat.",
-				price: 10000,
-			},
-			{
-				id: 3,
-				name: "Mac book",
-				description:
-					" Lorem ipsum, dolor sit amet consectetur adipisicing elit. Impedit eligendi perspiciatis quisquam quam molestias ratione libero saepe. Soluta placeat temporibus excepturi architecto, dolorum ipsa laboriosam, porro magnam, hic aut quaerat.",
-				price: 10000,
-			},
-			{
-				id: 4,
-				name: "Mac book",
-				description:
-					" Lorem ipsum, dolor sit amet consectetur adipisicing elit. Impedit eligendi perspiciatis quisquam quam molestias ratione libero saepe. Soluta placeat temporibus excepturi architecto, dolorum ipsa laboriosam, porro magnam, hic aut quaerat.",
-				price: 10000,
-			},
-			{
-				id: 5,
-				name: "Mac book",
-				description:
-					" Lorem ipsum, dolor sit amet consectetur adipisicing elit. Impedit eligendi perspiciatis quisquam quam molestias ratione libero saepe. Soluta placeat temporibus excepturi architecto, dolorum ipsa laboriosam, porro magnam, hic aut quaerat.",
-				price: 10000,
-			},
-			{
-				id: 6,
-				name: "Mac book",
-				description:
-					" Lorem ipsum, dolor sit amet consectetur adipisicing elit. Impedit eligendi perspiciatis quisquam quam molestias ratione libero saepe. Soluta placeat temporibus excepturi architecto, dolorum ipsa laboriosam, porro magnam, hic aut quaerat.",
-				price: 10000,
-			},
-		],
+		products: [],
 	};
+
+	async componentDidMount() {
+		const request = await axios.get(" http://127.0.0.1:8000/product/");
+		this.setState({ products: request.data });
+		console.log(this.state.products);
+	}
+
 	render() {
 		return (
 			<React.Fragment>
 				<div className="container overflow-hidden">
 					<div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 gy-5">
 						{this.state.products.map((p) => (
-							<div className="col">
+							<div className="col" key={p.id}>
 								<Product key={p.id} product={p} />
 							</div>
 						))}
@@ -72,13 +37,6 @@ class Products extends Component {
 					{this.state.products.map((p) => (
 						<Product key={p.id} product={p} />
 					))}
-
-					<Product product={this.state.products[0]} />
-					<Product product={this.state.products[0]} />
-					<Product product={this.state.products[0]} />
-					<Product product={this.state.products[0]} />
-					<Product product={this.state.products[0]} />
-					<Product product={this.state.products[0]} />
 				</Row> */}
 			</React.Fragment>
 		);

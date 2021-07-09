@@ -3,11 +3,14 @@ import Button from "react-bootstrap/Button";
 import CardDeck from "react-bootstrap/CardDeck";
 import CardColumns from "react-bootstrap/CardColumns";
 // import Container from "react-bootstrap/Container";
+import { Route, Switch, Link } from "react-router-dom";
+
 import { Container, Row, Col, Table } from "react-bootstrap";
 // import Row from "react-bootstrap/Row";
 // import Grid from "react-bootstrap/Grid";
 // import Col from "react-bootstrap/Col";
 import Product from "../components/Product";
+import axios from "axios";
 
 class Products extends Component {
 	state = {
@@ -95,6 +98,16 @@ class Products extends Component {
 			},
 		],
 	};
+	async componentDidMount() {
+		const request = await axios.get(" http://127.0.0.1:8000/order/", {
+			auth: {
+				username: "admin",
+				password: "password123",
+			},
+		});
+		this.setState({ orders: request.data });
+		console.log(this.state.orders);
+	}
 	render() {
 		return (
 			<Table responsive="sm">
@@ -115,7 +128,9 @@ class Products extends Component {
 							<td>{order.status}</td>
 							<td>{order.payment}</td>
 							<td>
-								<Button variant="outline-dark">Edit</Button>{" "}
+								<Link to={"/edit_order_seller/" + order.id}>
+									<Button variant="outline-dark">Edit</Button>
+								</Link>
 							</td>
 						</tr>
 					))}

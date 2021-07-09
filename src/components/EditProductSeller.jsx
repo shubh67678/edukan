@@ -4,9 +4,11 @@ import Card from "react-bootstrap/Card";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+import { Route, Switch, Link } from "react-router-dom";
+
 import axios from "axios";
 
-class ProductDetail extends Component {
+class EditProductSeller extends Component {
 	state = {
 		product: {},
 	};
@@ -42,18 +44,9 @@ class ProductDetail extends Component {
 						</div>
 
 						<div className="row">
-							<div className="col">
-								<button
-									type="button"
-									className="btn btn-secondary">
-									Cart
-								</button>
-							</div>
-							<div className="col">
-								<button type="button" className="btn btn-dark">
-									Buy
-								</button>
-							</div>
+							<button type="button" className="btn btn-dark">
+								Edit
+							</button>
 						</div>
 					</div>
 				</div>
@@ -62,4 +55,4 @@ class ProductDetail extends Component {
 	}
 }
 
-export default ProductDetail;
+export default EditProductSeller;

@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import axios from "axios";
+
 import Button from "react-bootstrap/Button";
 import CardDeck from "react-bootstrap/CardDeck";
 import CardColumns from "react-bootstrap/CardColumns";
@@ -7,6 +9,8 @@ import { Container, Row, Col, Table } from "react-bootstrap";
 // import Row from "react-bootstrap/Row";
 // import Grid from "react-bootstrap/Grid";
 // import Col from "react-bootstrap/Col";
+import { Route, Switch, Link } from "react-router-dom";
+
 import Product from "../components/Product";
 
 class Products extends Component {
@@ -56,36 +60,61 @@ class Products extends Component {
 			},
 		],
 	};
+	HandelAdd = async () => {
+		const obj = {
+			name: "first_product",
+			company: "4",
+			price: 100,
+		};
+		const request = await axios.post(
+			" http://127.0.0.1:8000/product/",
+			obj
+		);
+		console.log(request.data);
+	};
+	async componentDidMount() {
+		const request = await axios.get(" http://127.0.0.1:8000/product/");
+		this.setState({ products: request.data });
+		console.log(this.state.products);
+	}
 	render() {
 		return (
-			<Table responsive="sm">
-				<thead>
-					<tr>
-						<th>No.</th>
-						<th>Product</th>
-						<th>Inventory</th>
-						<th>Status</th>
-						<th>Category</th>
-						<th>Comments</th>
-						<th>Actions</th>
-					</tr>
-				</thead>
-				<tbody>
-					{this.state.products.map((p, index) => (
-						<tr key={p.id}>
-							<td>{index + 1}</td>
-							<td>{p.name}</td>
-							<td>{p.price}</td>
-							<td>avaliable</td>
-							<td>test</td>
-							<td>Comments</td>
-							<td>
-								<Button variant="outline-dark">Edit</Button>{" "}
-							</td>
+			<React.Fragment>
+				<Button onClick={this.HandelAdd}>Add</Button>
+
+				<Table responsive="sm">
+					<thead>
+						<tr>
+							<th>No.</th>
+							<th>Product</th>
+							<th>Inventory</th>
+							<th>Status</th>
+							<th>Category</th>
+							<th>Comments</th>
+							<th>Actions</th>
 						</tr>
-					))}
-				</tbody>
-			</Table>
+					</thead>
+					<tbody>
+						{this.state.products.map((p, index) => (
+							<tr key={p.id}>
+								<td>{index + 1}</td>
+								<td>{p.name}</td>
+								<td>{p.price}</td>
+								<td>avaliable</td>
+								<td>test</td>
+								<td>Comments</td>
+								<td>
+									<Link to={"/edit_product_seller/" + p.id}>
+										<Button variant="outline-dark">
+											Edit
+										</Button>
+									</Link>
+								</td>
+							</tr>
+						))}
+					</tbody>
+				</Table>
+			</React.Fragment>
 		);
 	}
 }
