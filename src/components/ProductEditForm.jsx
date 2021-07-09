@@ -1,76 +1,57 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import { sendLoginData } from "../services/LoginService";
-
-export default function App() {
-	/*{
-//     "username":"test1",
-//     "first_name":"non",
-//     "last_name":"ls",
-//     "email": "test@tes.com",
-//     "password": "password123"
-// } */
+import { editProduct } from "../services/productService";
+export default function CreateProductForm({ preloadedValues, product_id }) {
+	// {
+	//     "url": "http://127.0.0.1:8000/product/7/",
+	//     "name": "brick",
+	//     "company": 1,
+	//     "price": 100,
+	//     "id": 7
+	// }
 	const {
 		register,
 		handleSubmit,
 		formState: { errors },
-	} = useForm();
+	} = useForm({
+		defaultValues: preloadedValues,
+	});
 	const onSubmit = async (data) => {
-		const token = await sendLoginData(data);
-		console.log(token.data);
+		const new_product = await editProduct(data, product_id);
+		console.log(new_product);
 	};
 
 	return (
 		<div className="d-inline-flex p-2" justify="center">
 			<form onSubmit={handleSubmit(onSubmit)}>
 				<div className="mb-3">
-					<label className="form-label">Username</label>
+					<label className="form-label">Name</label>
 					<input
 						type="text"
 						className="form-control"
 						id="exampleInputEmail1"
 						aria-describedby="emailHelp"
-						{...register("username")}
+						{...register("name")}
 					/>
 				</div>
 				<div className="mb-3">
-					<label className="form-label">First name</label>
+					<label className="form-label">Company</label>
 					<input
 						type="text"
 						className="form-control"
 						id="exampleInputEmail1"
 						aria-describedby="emailHelp"
-						{...register("first_name")}
+						{...register("company")}
 					/>
 				</div>
 				<div className="mb-3">
-					<label className="form-label">Last Name</label>
+					<label className="form-label">Price</label>
 					<input
 						type="text"
 						className="form-control"
 						id="exampleInputEmail1"
 						aria-describedby="emailHelp"
-						{...register("last_name")}
-					/>
-				</div>
-				<div className="mb-3">
-					<label className="form-label">Email address</label>
-					<input
-						type="email"
-						className="form-control"
-						id="exampleInputEmail1"
-						aria-describedby="emailHelp"
-						{...register("email")}
-					/>
-				</div>
-				<div className="mb-3">
-					<label className="form-label">Password</label>
-					<input
-						type="password"
-						className="form-control"
-						id="exampleInputEmail1"
-						aria-describedby="emailHelp"
-						{...register("password")}
+						{...register("price")}
 					/>
 				</div>
 

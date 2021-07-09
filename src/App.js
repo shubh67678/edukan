@@ -10,6 +10,10 @@ import SellerOrderList from "./components/SellerOrderList";
 import SellerProductList from "./components/SellerProductList";
 import EditProductSeller from "./components/EditProductSeller";
 import EditOrderSeller from "./components/EditOrderSeller";
+import Login from "./components/Login";
+import CreateProductForm from "./components/ProductAddForm";
+import ProductEditForm from "./components/CallProductEdit";
+import CallProductEdit from "./components/CallProductEdit";
 class App extends Component {
 	state = {};
 	render() {
@@ -19,6 +23,11 @@ class App extends Component {
 				<div className="content">
 					<Switch>
 						<Route path="/product/:id" component={ProductDetail} />
+						<Route
+							path="/create_product"
+							component={CreateProductForm}
+						/>
+						<Route path="/login" component={Login} />
 						<Route path="/products" component={Products} />
 						<Route
 							path="/product-detail"
@@ -34,9 +43,10 @@ class App extends Component {
 						/>
 						<Route path="/products" component={Products} />
 						<Route
-							path="/edit_product_seller/:id"
-							component={EditProductSeller}
+							path="/product_edit_form/:id"
+							component={CallProductEdit}
 						/>
+
 						<Route
 							path="/edit_order_seller/:id"
 							component={EditOrderSeller}

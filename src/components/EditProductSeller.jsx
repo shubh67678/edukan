@@ -44,9 +44,15 @@ class EditProductSeller extends Component {
 						</div>
 
 						<div className="row">
-							<button type="button" className="btn btn-dark">
-								Edit
-							</button>
+							<Link
+								to={
+									"/product_edit_form/" +
+									this.props.match.params.id
+								}>
+								<button type="button" className="btn btn-dark">
+									Edit
+								</button>
+							</Link>
 						</div>
 					</div>
 				</div>

@@ -1,19 +1,16 @@
 import React, { Component } from "react";
-import Button from "react-bootstrap/Button";
-import Card from "react-bootstrap/Card";
-import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-import axios from "axios";
-
+import { getProductById } from "../services/productService";
 class ProductDetail extends Component {
 	state = {
 		product: {},
 	};
 	async componentDidMount() {
-		const request = await axios.get(
-			" http://127.0.0.1:8000/product/" + this.props.match.params.id
-		);
+		//props.match is getting from the react router
+		//params is all the list of the parameters send
+		// id is the params we currently need
+		const product_id = this.props.match.params.id;
+
+		const request = await getProductById(product_id);
 		this.setState({ product: request.data });
 		console.log(this.state.product);
 	}
@@ -23,7 +20,7 @@ class ProductDetail extends Component {
 				<div className="row row-cols-1 row-cols-lg-2  gy-5 mt-5">
 					<div className="col">
 						<img
-							class="img-fluid w-100"
+							className="img-fluid w-100"
 							src="https://www.pixsy.com/wp-content/uploads/2021/04/ben-sweet-2LowviVHZ-E-unsplash-1.jpeg"
 							alt=""
 						/>

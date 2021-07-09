@@ -1,14 +1,14 @@
 import React, { Component } from "react";
-import Button from "react-bootstrap/Button";
-import Card from "react-bootstrap/Card";
-import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-import { Route, Switch, Link } from "react-router-dom";
+import { Button, Card, Container, Row, Col } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
+//product is a stateless functional component
+//used to display data only
+
+//{product} is decomposition so that we dont have to write props...
 const Product = ({ product }) => {
-	// console.log(product);
 	return (
+		//Card used from the Card in Bootstrap
 		<Card style={{ width: "18rem" }}>
 			<Card.Img
 				variant="top"
