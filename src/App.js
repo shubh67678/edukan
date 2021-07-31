@@ -9,11 +9,15 @@ import Products from "./components/Products";
 import SellerOrderList from "./components/SellerOrderList";
 import SellerProductList from "./components/SellerProductList";
 import EditProductSeller from "./components/EditProductSeller";
-import EditOrderSeller from "./components/EditOrderSeller";
 import Login from "./components/Login";
+import SignUp from "./components/SignUp";
 import CreateProductForm from "./components/ProductAddForm";
 import ProductEditForm from "./components/CallProductEdit";
 import CallProductEdit from "./components/CallProductEdit";
+import CallOrderEdit from "./components/CallOrderEdit";
+import Functionstripe from "./components/TestAPI";
+import ElementBuilder from "./components/Payment";
+
 class App extends Component {
 	state = {};
 	render() {
@@ -28,6 +32,7 @@ class App extends Component {
 							component={CreateProductForm}
 						/>
 						<Route path="/login" component={Login} />
+						<Route path="/signup" component={SignUp} />
 						<Route path="/products" component={Products} />
 						<Route
 							path="/product-detail"
@@ -46,11 +51,12 @@ class App extends Component {
 							path="/product_edit_form/:id"
 							component={CallProductEdit}
 						/>
-
 						<Route
-							path="/edit_order_seller/:id"
-							component={EditOrderSeller}
+							path="/order_edit_form/:id"
+							component={CallOrderEdit}
 						/>
+						<Route path="/payment" component={Functionstripe} />
+						{/* <Route path="/payment" component={ElementBuilder} /> */}
 					</Switch>
 				</div>
 			</div>

@@ -38,7 +38,7 @@ class Products extends Component {
 							<td>{order.status}</td>
 							<td>{order.payment}</td>
 							<td>
-								<Link to={"/edit_order_seller/" + order.id}>
+								<Link to={"/order_edit_form/" + order.id}>
 									<Button variant="outline-dark">Edit</Button>
 								</Link>
 							</td>

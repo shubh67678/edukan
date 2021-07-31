@@ -16,18 +16,19 @@ function getOrderUrlById(id) {
 	return `${apiEndpoint}/${id}`;
 }
 
-export function getOrderById(OrderId) {
-	return http.get(getOrderUrlById(OrderId));
+export function getOrderById(OrderId, auth) {
+	console.log(OrderId);
+	return http.get(getOrderUrlById(OrderId), auth);
 }
 
 export function getAllOrders(auth) {
 	return http.get(apiEndpoint, auth);
 }
 
-export function deleteOrder(OrderId) {
-	return http.delete(getOrderUrlById(OrderId));
+export function deleteOrder(OrderId, auth) {
+	return http.delete(getOrderUrlById(OrderId, auth));
 }
 
-export function saveOrder(toSaveOrder) {
-	return http.post(apiEndpoint, toSaveOrder);
+export function editOrder(toEditOrder, order_id) {
+	return http.put(apiEndpoint + "/" + order_id + "/", toEditOrder);
 }

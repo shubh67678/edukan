@@ -1,5 +1,10 @@
 import React, { Component } from "react";
 import { getProductById } from "../services/productService";
+import { sendProductData } from "../services/sendProductData";
+import { Elements } from "@stripe/react-stripe-js";
+import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
+
 class ProductDetail extends Component {
 	state = {
 		product: {},
@@ -8,12 +13,18 @@ class ProductDetail extends Component {
 		//props.match is getting from the react router
 		//params is all the list of the parameters send
 		// id is the params we currently need
-		const product_id = this.props.match.params.id;
+		const product_id = 16;
 
 		const request = await getProductById(product_id);
 		this.setState({ product: request.data });
 		console.log(this.state.product.images);
 	}
+	// const Handelsubmit = () => {
+	// 	console.log(state.product);
+	// }
+	sendProductToBackend = async (event) => {
+		const post_request = await sendProductData(this.state.product);
+	};
 	render() {
 		return (
 			<div className="container overflow-hidden">
@@ -48,7 +59,9 @@ class ProductDetail extends Component {
 								</button>
 							</div>
 							<div className="col">
-								<button type="button" className="btn btn-dark">
+								<button
+									onClick={this.sendProductToBackend}
+									className="btn btn-secondary">
 									Buy
 								</button>
 							</div>

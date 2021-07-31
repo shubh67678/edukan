@@ -1,65 +1,44 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import { loginHandel } from "../services/LoginService";
-import { Container } from "react-bootstrap";
-import "../style.css";
-
-export default function App() {
-	/*{
-//     "username":"test1",
-//     "first_name":"non",
-//     "last_name":"ls",
-//     "email": "test@tes.com",
-//     "password": "password123"
-// } */
+import { editOrder } from "../services/orderService";
+export default function CreateProductForm({ preloadedValues, order_id }) {
+	// {
+	//     "url": "http://127.0.0.1:8000/product/7/",
+	//     "name": "brick",
+	//     "company": 1,
+	//     "price": 100,
+	//     "id": 7
+	// }
 	const {
 		register,
 		handleSubmit,
 		formState: { errors },
-	} = useForm();
+	} = useForm({
+		defaultValues: preloadedValues,
+	});
 	const onSubmit = async (data) => {
-		const token = await loginHandel(data);
-		console.log(token.data);
+		const new_product = await editOrder(data, order_id);
+		console.log(new_product);
 	};
 
 	return (
-		<form onSubmit={handleSubmit(onSubmit)} className="form">
-			<div className="mb-3">
-				<label className="form-label">Username</label>
-				<input
-					type="text"
-					className="form-control"
-					id="exampleInputEmail1"
-					aria-describedby="emailHelp"
-					{...register("username")}
-				/>
-			</div>
-
-			<div className="mb-3">
-				<label className="form-label">Email address</label>
-				<input
-					type="email"
-					className="form-control"
-					id="exampleInputEmail1"
-					aria-describedby="emailHelp"
-					{...register("email")}
-				/>
-			</div>
-			<div className="mb-3">
-				<label className="form-label">Password</label>
-				<input
-					type="password"
-					className="form-control"
-					id="exampleInputEmail1"
-					aria-describedby="emailHelp"
-					{...register("password")}
-				/>
-			</div>
-
-			<button type="submit" className="btn btn-primary">
-				Submit
-			</button>
-		</form>
+		<div className="d-inline-flex p-2" justify="center">
+			<form onSubmit={handleSubmit(onSubmit)}>
+				<div className="mb-3">
+					<label className="form-label">Status</label>
+					<input
+						type="text"
+						className="form-control"
+						id="exampleInputEmail1"
+						aria-describedby="emailHelp"
+						{...register("status")}
+					/>
+				</div>
+				<button type="submit" className="btn btn-primary">
+					Submit
+				</button>
+			</form>
+		</div>
 	);
 }
 

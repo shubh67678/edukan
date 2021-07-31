@@ -1,6 +1,7 @@
 import React, { Component } from "react";
-import { Container, Navbar, Nav } from "react-bootstrap";
+import { Button, Container, Navbar, Nav } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import { LogOut } from "../services/logout";
 
 const NavBar = () => {
 	return (
@@ -25,6 +26,14 @@ const NavBar = () => {
 					<Nav.Link as={Link} to="/login">
 						Login
 					</Nav.Link>
+					<Nav.Link as={Link} to="/signup">
+						SignUp
+					</Nav.Link>
+					<Nav.Link as={Link} to="/payment">
+						Pay
+					</Nav.Link>
+
+					<Button onClick={LogOut}>Logout</Button>
 				</Nav>
 			</Container>
 		</Navbar>

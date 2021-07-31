@@ -1,8 +1,6 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import { loginHandel } from "../services/LoginService";
-import { Container } from "react-bootstrap";
-import "../style.css";
+import { sendSignUpData } from "../services/SignUpService";
 
 export default function App() {
 	/*{
@@ -18,7 +16,7 @@ export default function App() {
 		formState: { errors },
 	} = useForm();
 	const onSubmit = async (data) => {
-		const token = await loginHandel(data);
+		const token = await sendSignUpData(data);
 		console.log(token.data);
 	};
 
@@ -34,7 +32,26 @@ export default function App() {
 					{...register("username")}
 				/>
 			</div>
-
+			<div className="mb-3">
+				<label className="form-label">First name</label>
+				<input
+					type="text"
+					className="form-control"
+					id="exampleInputEmail1"
+					aria-describedby="emailHelp"
+					{...register("first_name")}
+				/>
+			</div>
+			<div className="mb-3">
+				<label className="form-label">Last Name</label>
+				<input
+					type="text"
+					className="form-control"
+					id="exampleInputEmail1"
+					aria-describedby="emailHelp"
+					{...register("last_name")}
+				/>
+			</div>
 			<div className="mb-3">
 				<label className="form-label">Email address</label>
 				<input
