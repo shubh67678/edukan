@@ -1,7 +1,6 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { loginHandel } from "../services/LoginService";
-import { Container } from "react-bootstrap";
 import "../style.css";
 
 export default function App() {
@@ -17,6 +16,7 @@ export default function App() {
 		handleSubmit,
 		formState: { errors },
 	} = useForm();
+
 	const onSubmit = async (data) => {
 		const token = await loginHandel(data);
 		console.log(token.data);
@@ -29,8 +29,9 @@ export default function App() {
 				<input
 					type="text"
 					className="form-control"
-					id="exampleInputEmail1"
+					id="username"
 					aria-describedby="emailHelp"
+					required
 					{...register("username")}
 				/>
 			</div>
@@ -40,8 +41,9 @@ export default function App() {
 				<input
 					type="email"
 					className="form-control"
-					id="exampleInputEmail1"
+					id="email"
 					aria-describedby="emailHelp"
+					required
 					{...register("email")}
 				/>
 			</div>
@@ -50,8 +52,9 @@ export default function App() {
 				<input
 					type="password"
 					className="form-control"
-					id="exampleInputEmail1"
+					id="password"
 					aria-describedby="emailHelp"
+					required
 					{...register("password")}
 				/>
 			</div>

@@ -1,160 +1,105 @@
-// import React, { useState } from "react";
-// // import { fetchFromAPI } from "./helpers";
-// import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
-// import { sendProductData } from "../services/sendProductData";
+import React from "react";
+import { loadStripe } from "@stripe/stripe-js";
+import {
+	CardElement,
+	Elements,
+	ElementsConsumer,
+	PaymentElement,
+	useStripe,
+	useElements,
+} from "@stripe/react-stripe-js";
+import { useEffect, useState, useContext } from "react";
+import { CartContent } from "../Store";
 
-// function Payments() {
-// 	const stripe = useStripe();
-// 	const elements = useElements();
+import { Container } from "react-bootstrap";
+import {
+	sendProductData,
+	sendPaymentIntent,
+	SendProductDataToStripe,
+} from "../services/sendProductData";
 
-// 	const [amount, setAmount] = useState(0);
-// 	const [paymentIntent, setPaymentIntent] = useState();
+const handleServerResponse = async (response, stripe, Cart) => {
+	if (response.data["error"]) {
+		// Show error from server on payment form
+	} else if (response.data["requires_action"]) {
+		// Use Stripe.js to handle the required card action
+		const { error: errorAction, paymentIntent } =
+			await stripe.handleCardAction(
+				response.data["payment_intent_client_secret"]
+			);
 
-// 	// Create a payment intent on the server
-// 	const createPaymentIntent = async (event) => {
-// 		// Clamp amount to Stripe min/max
-// 		const validAmount = Math.min(Math.max(amount, 50), 9999999);
-// 		setAmount(validAmount);
+		if (errorAction) {
+			// Show error from Stripe.js in payment form
+		} else {
+			// The card action has been handled
+			// The PaymentIntent can be confirmed again on the server
 
-// 		// Make the API Request
-// 		const pi = await sendProductData("payments", {
-// 			body: { amount: validAmount },
-// 		});
-// 		setPaymentIntent(pi);
-// 	};
+			const payment_request_response = await sendPaymentIntent(
+				paymentIntent,
+				Cart
+			);
+			console.log(payment_request_response);
+		}
+	} else {
+		// Show success message
+	}
+};
 
-// 	// Handle the submission of card details
-// 	const handleSubmit = async (event) => {
-// 		event.preventDefault();
+export default function CheckoutForm() {
+	const stripe = useStripe();
+	const elements = useElements();
+	const [Cart, addToCart] = useContext(CartContent);
 
-// 		const cardElement = elements.getElement(CardElement);
+	const handleSubmit = async (event) => {
+		// Block native form submission.
+		event.preventDefault();
 
-// 		// Confirm Card Payment
-// 		const { paymentIntent: updatedPaymentIntent, error } =
-// 			await stripe.confirmCardPayment(paymentIntent.client_secret, {
-// 				payment_method: { card: cardElement },
-// 			});
+		if (!stripe || !elements) {
+			// Stripe.js has not loaded yet. Make sure to disable
+			// form submission until Stripe.js has loaded.
+			return;
+		}
 
-// 		if (error) {
-// 			console.error(error);
-// 			error.payment_intent && setPaymentIntent(error.payment_intent);
-// 		} else {
-// 			setPaymentIntent(updatedPaymentIntent);
-// 		}
-// 	};
+		// Get a reference to a mounted CardElement. Elements knows how
+		// to find your CardElement because there can only ever be one of
+		// each type of element.
+		const cardElement = elements.getElement(CardElement);
 
-// 	return (
-// 		<>
-// 			<h2>Payments</h2>
-// 			<p>One-time payment scenario.</p>
-// 			<div className="well">
-// 				<PaymentIntentData data={paymentIntent} />
-// 			</div>
+		// Use your card Element with other Stripe.js APIs
+		const { error, paymentMethod } = await stripe.createPaymentMethod({
+			type: "card",
+			card: cardElement,
+		});
 
-// 			<div className="well">
-// 				<h3>Step 1: Create a Payment Intent</h3>
-// 				<p>
-// 					Change the amount of the payment in the form, then request a
-// 					Payment Intent to create context for one-time payment. Min
-// 					50, Max 9999999
-// 				</p>
+		if (error) {
+			console.log("[error]", error);
+		} else {
+			console.log("[PaymentMethod]", paymentMethod);
+			const response = await sendProductData(paymentMethod, Cart);
+			console.log(response);
 
-// 				<div className="form-inline">
-// 					<input
-// 						className="form-control"
-// 						type="number"
-// 						value={amount}
-// 						disabled={paymentIntent}
-// 						onChange={(e) => setAmount(e.target.value)}
-// 					/>
-// 					<button
-// 						className="btn btn-success"
-// 						disabled={amount <= 0}
-// 						onClick={createPaymentIntent}
-// 						hidden={paymentIntent}>
-// 						Ready to Pay ${(amount / 100).toFixed(2)}
-// 					</button>
-// 				</div>
-// 			</div>
-// 			<hr />
+			handleServerResponse(response, stripe, Cart);
+			//4000 0000 0000 3220
+			//4242 4242 4242 4242
+		}
+	};
 
-// 			<form
-// 				onSubmit={handleSubmit}
-// 				className="well"
-// 				hidden={!paymentIntent || paymentIntent.status === "succeeded"}>
-// 				<h3>Step 2: Submit a Payment Method</h3>
-// 				<p>Collect credit card details, then submit the payment.</p>
-// 				<p>
-// 					Normal Card: <code>4242424242424242</code>
-// 				</p>
-// 				<p>
-// 					3D Secure Card: <code>4000002500003155</code>
-// 				</p>
-
-// 				<hr />
-
-// 				<CardElement />
-// 				<button className="btn btn-success" type="submit">
-// 					Pay
-// 				</button>
-// 			</form>
-// 		</>
-// 	);
-// }
-
-// function PaymentIntentData(props) {
-// 	if (props.data) {
-// 		const { id, amount, status, client_secret } = props.data;
-// 		return (
-// 			<>
-// 				<h3>
-// 					Payment Intent{" "}
-// 					<span
-// 						className={
-// 							"badge " +
-// 							(status === "succeeded"
-// 								? "badge-success"
-// 								: "badge-secondary")
-// 						}>
-// 						{status}
-// 					</span>
-// 				</h3>
-// 				<pre>
-// 					ID: {id} <br />
-// 					Client Secret: {client_secret} <br />
-// 					Amount: {amount} <br />
-// 					Status:{status}
-// 					<br />
-// 				</pre>
-// 			</>
-// 		);
-// 	} else {
-// 		return <p>Payment Intent Not Created Yet</p>;
-// 	}
-// }
-
-// export default Payments;
-
-// const InjectedCheckoutForm = () => {
-// 	return (
-// 		<ElementsConsumer>
-// 			<Payments />
-// 		</ElementsConsumer>
-// 	);
-// };
-
-// // Make sure to call `loadStripe` outside of a component’s render to avoid
-// // recreating the `Stripe` object on every render.
-// const stripePromise = loadStripe(
-// 	"pk_test_51JHQTXSHYqXBXKjvzgn9qtU1kcMDSRwJ7oiUpjkqsJobCfvp3iDptW78dFH0QgDphPm7AMHAPz99feBUMFVJDssG0064LL3Gvr"
-// );
-
-// // const ElementBuilder = () => {
-// // 	return (
-// // 		<Elements stripe={stripePromise}>
-// // 			<InjectedCheckoutForm />
-// // 		</Elements>
-// // 	);
-// // };
-
-// // export default ElementBuilder;
+	return (
+		<Container style={{ width: "40rem" }}>
+			<form onSubmit={handleSubmit}>
+				<div className="mb-3">
+					<label className="form-label">Card Details</label>
+					<CardElement />
+				</div>
+				<div className="mb-3">
+					<button
+						type="submit"
+						className="btn btn-dark"
+						disabled={!stripe}>
+						Pay
+					</button>
+				</div>
+			</form>
+		</Container>
+	);
+}

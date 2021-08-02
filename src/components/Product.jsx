@@ -7,7 +7,6 @@ import "../style.css";
 
 //{product} is decomposition so that we dont have to write props...
 const Product = ({ product }) => {
-	console.log(product);
 	return (
 		//Card used from the Card in Bootstrap
 		<Card style={{ width: "18rem" }}>

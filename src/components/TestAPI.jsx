@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { loadStripe } from "@stripe/stripe-js";
 import {
 	CardElement,
@@ -10,6 +10,7 @@ import { Container } from "react-bootstrap";
 import {
 	sendProductData,
 	sendPaymentIntent,
+	SendProductDataToStripe,
 } from "../services/sendProductData";
 
 class CheckoutForm extends React.Component {
@@ -63,7 +64,6 @@ class CheckoutForm extends React.Component {
 		event.preventDefault();
 
 		const { stripe, elements } = this.props;
-
 		if (!stripe || !elements) {
 			// Stripe.js has not loaded yet. Make sure to disable
 			// form submission until Stripe.js has loaded.
@@ -83,7 +83,7 @@ class CheckoutForm extends React.Component {
 		if (error) {
 			console.log("[error]", error);
 		} else {
-			const response = await sendProductData(paymentMethod);
+			const response = await SendProductDataToStripe(paymentMethod);
 			console.log(response);
 			if (response.data["requires_action"]) {
 				console.log(response);
@@ -114,16 +114,24 @@ class CheckoutForm extends React.Component {
 	};
 
 	render() {
-		const { stripe } = this.props;
+		const { stripe, elements } = this.props;
 		return (
-			<form onSubmit={this.handleSubmit}>
-				<Container text>
-					<CardElement />
-					<button type="submit" disabled={!stripe}>
-						Pay
-					</button>
-				</Container>
-			</form>
+			<Container style={{ width: "40rem" }}>
+				<form onSubmit={this.handleSubmit}>
+					<div className="mb-3">
+						<label className="form-label">Card Details</label>
+						<CardElement />
+					</div>
+					<div className="mb-3">
+						<button
+							type="submit"
+							className="btn btn-dark"
+							disabled={!stripe}>
+							Pay
+						</button>
+					</div>
+				</form>
+			</Container>
 		);
 	}
 }
@@ -140,9 +148,10 @@ const InjectedCheckoutForm = () => {
 
 // Make sure to call `loadStripe` outside of a component’s render to avoid
 // recreating the `Stripe` object on every render.
-const stripePromise = loadStripe(
-	"pk_test_51JHQTXSHYqXBXKjvzgn9qtU1kcMDSRwJ7oiUpjkqsJobCfvp3iDptW78dFH0QgDphPm7AMHAPz99feBUMFVJDssG0064LL3Gvr"
-);
+
+const PUBLISHABLE_KEY =
+	"pk_test_51JHQTXSHYqXBXKjvzgn9qtU1kcMDSRwJ7oiUpjkqsJobCfvp3iDptW78dFH0QgDphPm7AMHAPz99feBUMFVJDssG0064LL3Gvr";
+const stripePromise = loadStripe(PUBLISHABLE_KEY);
 
 const Functionstripe = () => {
 	return (

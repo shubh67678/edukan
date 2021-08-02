@@ -2,6 +2,8 @@ import axios from "axios";
 import { apiUrl } from "../config.json";
 const baseURL = apiUrl + "/api/";
 
+//https://stackoverflow.com/questions/43051291/attach-authorization-header-for-all-axios-requests
+
 const axiosInstance = axios.create({
 	baseURL: baseURL,
 	timeout: 5000,
@@ -16,6 +18,7 @@ const axiosInstance = axios.create({
 
 axiosInstance.interceptors.response.use(
 	(response) => {
+		console.log(response);
 		return response;
 	},
 	async function (error) {

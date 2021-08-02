@@ -1,23 +1,22 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { sendSignUpData } from "../services/SignUpService";
+import { useHistory } from "react-router";
+import { useState } from "react";
 
 export default function App() {
-	/*{
-//     "username":"test1",
-//     "first_name":"non",
-//     "last_name":"ls",
-//     "email": "test@tes.com",
-//     "password": "password123"
-// } */
+	const [history, setHistoy] = useState(useHistory);
+
 	const {
 		register,
 		handleSubmit,
 		formState: { errors },
+		getValues,
 	} = useForm();
 	const onSubmit = async (data) => {
 		const token = await sendSignUpData(data);
 		console.log(token.data);
+		history.push("/products");
 	};
 
 	return (
@@ -29,7 +28,8 @@ export default function App() {
 					className="form-control"
 					id="exampleInputEmail1"
 					aria-describedby="emailHelp"
-					{...register("username")}
+					required
+					{...register("username", { required: true })}
 				/>
 			</div>
 			<div className="mb-3">
@@ -39,6 +39,7 @@ export default function App() {
 					className="form-control"
 					id="exampleInputEmail1"
 					aria-describedby="emailHelp"
+					required
 					{...register("first_name")}
 				/>
 			</div>
@@ -49,6 +50,7 @@ export default function App() {
 					className="form-control"
 					id="exampleInputEmail1"
 					aria-describedby="emailHelp"
+					required
 					{...register("last_name")}
 				/>
 			</div>
@@ -59,6 +61,7 @@ export default function App() {
 					className="form-control"
 					id="exampleInputEmail1"
 					aria-describedby="emailHelp"
+					required
 					{...register("email")}
 				/>
 			</div>
@@ -69,8 +72,36 @@ export default function App() {
 					className="form-control"
 					id="exampleInputEmail1"
 					aria-describedby="emailHelp"
+					required
 					{...register("password")}
 				/>
+			</div>
+			<div className="mb-3">
+				<label>Confirm Password: </label>
+				<input
+					type="password"
+					className="form-control"
+					id="confirmPassword"
+					aria-describedby="emailHelp"
+					required
+					{...register("passwordConfirmation", {
+						required: "Please confirm password!",
+						validate: {
+							matchesPreviousPassword: (value) => {
+								const { password } = getValues();
+								return (
+									password === value ||
+									"Passwords should match!"
+								);
+							},
+						},
+					})}
+				/>
+				{errors.passwordConfirmation && (
+					<div class="alert alert-warning" role="alert">
+						{errors.passwordConfirmation.message}
+					</div>
+				)}
 			</div>
 
 			<button type="submit" className="btn btn-primary">
