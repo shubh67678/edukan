@@ -10,11 +10,26 @@ export const CartContent = React.createContext();
 export const CartDetails = ({ children }) => {
 	const [state, setState] = useState(productsInCart);
 
-	const addProductToCartList = (productId) => {
-		productId = parseInt(productId, 10); //convert to int
-		console.log(productId);
+	const addProductToCartList = (toAddProductDetails) => {
+		const toAddProductId = parseInt(toAddProductDetails["id"], 10); //convert to int
+		console.log(toAddProductDetails);
 		const copyState = state;
-		copyState.products.push({ id: productId });
+		var incrementQuantity = false;
+
+		for (var i = 0; i < copyState.products.length; i++) {
+			if (copyState.products[i]["id"] == toAddProductId) {
+				copyState.products[i]["quantity"] += 1;
+				incrementQuantity = true;
+			}
+		}
+
+		if (!incrementQuantity) {
+			copyState.products.push({
+				id: toAddProductId,
+				product_details: toAddProductDetails,
+				quantity: 1,
+			});
+		}
 		setState(copyState);
 	};
 

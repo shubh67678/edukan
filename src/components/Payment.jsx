@@ -8,14 +8,13 @@ import {
 	useStripe,
 	useElements,
 } from "@stripe/react-stripe-js";
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useContext } from "react";
 import { CartContent } from "../CartDetails";
 
 import { Container } from "react-bootstrap";
 import {
 	sendProductData,
 	sendPaymentIntent,
-	SendProductDataToStripe,
 } from "../services/sendProductData";
 
 import { ToastContainer, toast } from "react-toastify";
@@ -92,21 +91,24 @@ export default function CheckoutForm() {
 	};
 
 	return (
-		<Container style={{ width: "40rem" }}>
-			<form onSubmit={handleSubmit}>
-				<div className="mb-3">
-					<label className="form-label">Card Details</label>
-					<CardElement />
-				</div>
-				<div className="mb-3">
-					<button
-						type="submit"
-						className="btn btn-dark"
-						disabled={!stripe}>
-						Pay
-					</button>
-				</div>
-			</form>
-		</Container>
+		<>
+			<Container style={{ width: "40rem" }}>
+				<form onSubmit={handleSubmit}>
+					<div className="mb-3">
+						<label className="form-label">Card Details</label>
+						<CardElement />
+					</div>
+					<div className="mb-3">
+						<button
+							type="submit"
+							className="btn btn-dark"
+							disabled={!stripe}>
+							Pay
+						</button>
+					</div>
+				</form>
+			</Container>
+			<ToastContainer />
+		</>
 	);
 }

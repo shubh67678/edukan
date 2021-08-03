@@ -19,6 +19,7 @@ import CallOrderEdit from "./CallOrderEdit";
 import Functionstripe from "./PaymentContainer";
 import ElementBuilder from "./PaymentContainer";
 import TestHook from "./TestHook";
+import Cart from "./Cart";
 
 export default function PathOfLinks() {
 	return (
@@ -54,6 +55,7 @@ export default function PathOfLinks() {
 					/>
 					<Route path="/payment" component={Functionstripe} />
 					<Route path="/testHook" component={TestHook} />
+					<Route path="/Cart" component={Cart} />
 				</Switch>
 			</div>
 		</div>

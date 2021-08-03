@@ -1,9 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { loginHandel } from "../services/LoginService";
 import "../style.css";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function App() {
+	const [loggedIn, setLoggedIn] = useState();
+
 	/*{
 //     "username":"test1",
 //     "first_name":"non",
@@ -11,6 +15,8 @@ export default function App() {
 //     "email": "test@tes.com",
 //     "password": "password123"
 // } */
+	const notify = () => toast.success("You have logged in!");
+
 	const {
 		register,
 		handleSubmit,
@@ -18,51 +24,62 @@ export default function App() {
 	} = useForm();
 
 	const onSubmit = async (data) => {
+		console.log("test");
 		const token = await loginHandel(data);
+		if (token.data["access"]) {
+			setLoggedIn(true);
+		}
+		if (loggedIn) {
+			notify();
+		}
+
 		console.log(token.data);
 	};
 
 	return (
-		<form onSubmit={handleSubmit(onSubmit)} className="form">
-			<div className="mb-3">
-				<label className="form-label">Username</label>
-				<input
-					type="text"
-					className="form-control"
-					id="username"
-					aria-describedby="emailHelp"
-					required
-					{...register("username")}
-				/>
-			</div>
+		<>
+			<form onSubmit={handleSubmit(onSubmit)} className="form">
+				<div className="mb-3">
+					<label className="form-label">Username</label>
+					<input
+						type="text"
+						className="form-control"
+						id="username"
+						aria-describedby="emailHelp"
+						required
+						{...register("username")}
+					/>
+				</div>
 
-			<div className="mb-3">
-				<label className="form-label">Email address</label>
-				<input
-					type="email"
-					className="form-control"
-					id="email"
-					aria-describedby="emailHelp"
-					required
-					{...register("email")}
-				/>
-			</div>
-			<div className="mb-3">
-				<label className="form-label">Password</label>
-				<input
-					type="password"
-					className="form-control"
-					id="password"
-					aria-describedby="emailHelp"
-					required
-					{...register("password")}
-				/>
-			</div>
+				<div className="mb-3">
+					<label className="form-label">Email address</label>
+					<input
+						type="email"
+						className="form-control"
+						id="email"
+						aria-describedby="emailHelp"
+						required
+						{...register("email")}
+					/>
+				</div>
+				<div className="mb-3">
+					<label className="form-label">Password</label>
+					<input
+						type="password"
+						className="form-control"
+						id="password"
+						aria-describedby="emailHelp"
+						required
+						{...register("password")}
+					/>
+				</div>
 
-			<button type="submit" className="btn btn-primary">
-				Submit
-			</button>
-		</form>
+				<button type="submit" className="btn btn-primary">
+					Submit
+				</button>
+			</form>
+			<ToastContainer />
+		</>
 	);
 }
 

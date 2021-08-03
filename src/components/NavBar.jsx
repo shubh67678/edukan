@@ -4,12 +4,15 @@ import { Link } from "react-router-dom";
 import { LogOut } from "../services/logout";
 import { CartContent } from "../CartDetails";
 import { useContext } from "react";
+import { Cart } from "./Cart";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const NavBar = () => {
 	const [test, setTest] = useContext(CartContent);
-	console.log(test);
+	const printCart = () => {
+		console.log(test);
+	};
 	const loggedIn = false;
 
 	return (
@@ -31,6 +34,9 @@ const NavBar = () => {
 						<Nav.Link as={Link} to="/seller_product_list">
 							EditProducts
 						</Nav.Link>
+						<Nav.Link as={Link} to="/Cart">
+							Cart
+						</Nav.Link>
 					</Nav>
 					<Nav>
 						<Nav.Link as={Link} to="/login">
@@ -45,6 +51,9 @@ const NavBar = () => {
 								<Button variant="outline-dark">SignUp</Button>
 							</Link>
 						)}
+						<Button variant="outline-dark" onClick={printCart}>
+							printCart
+						</Button>
 					</Nav>
 				</Navbar.Collapse>
 			</Container>

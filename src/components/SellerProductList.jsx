@@ -8,50 +8,7 @@ import Product from "../components/Product";
 import { getAllProducts } from "../services/productService";
 class Products extends Component {
 	state = {
-		products: [
-			{
-				id: 1,
-				name: "Shoes",
-				description:
-					" Lorem ipsum, dolor sit amet consectetur adipisicing elit. Impedit eligendi perspiciatis quisquam quam molestias ratione libero saepe. Soluta placeat temporibus excepturi architecto, dolorum ipsa laboriosam, porro magnam, hic aut quaerat.",
-				price: 100,
-			},
-			{
-				id: 2,
-				name: "Mac book",
-				description:
-					" Lorem ipsum, dolor sit amet consectetur adipisicing elit. Impedit eligendi perspiciatis quisquam quam molestias ratione libero saepe. Soluta placeat temporibus excepturi architecto, dolorum ipsa laboriosam, porro magnam, hic aut quaerat.",
-				price: 10000,
-			},
-			{
-				id: 3,
-				name: "Mac book",
-				description:
-					" Lorem ipsum, dolor sit amet consectetur adipisicing elit. Impedit eligendi perspiciatis quisquam quam molestias ratione libero saepe. Soluta placeat temporibus excepturi architecto, dolorum ipsa laboriosam, porro magnam, hic aut quaerat.",
-				price: 10000,
-			},
-			{
-				id: 4,
-				name: "Mac book",
-				description:
-					" Lorem ipsum, dolor sit amet consectetur adipisicing elit. Impedit eligendi perspiciatis quisquam quam molestias ratione libero saepe. Soluta placeat temporibus excepturi architecto, dolorum ipsa laboriosam, porro magnam, hic aut quaerat.",
-				price: 10000,
-			},
-			{
-				id: 5,
-				name: "Mac book",
-				description:
-					" Lorem ipsum, dolor sit amet consectetur adipisicing elit. Impedit eligendi perspiciatis quisquam quam molestias ratione libero saepe. Soluta placeat temporibus excepturi architecto, dolorum ipsa laboriosam, porro magnam, hic aut quaerat.",
-				price: 10000,
-			},
-			{
-				id: 6,
-				name: "Mac book",
-				description:
-					" Lorem ipsum, dolor sit amet consectetur adipisicing elit. Impedit eligendi perspiciatis quisquam quam molestias ratione libero saepe. Soluta placeat temporibus excepturi architecto, dolorum ipsa laboriosam, porro magnam, hic aut quaerat.",
-				price: 10000,
-			},
-		],
+		products: [],
 	};
 
 	async componentDidMount() {
