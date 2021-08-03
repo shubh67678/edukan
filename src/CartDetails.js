@@ -2,21 +2,12 @@ import React, { useState, useContext } from "react";
 import { StrictMode } from "react";
 
 const productsInCart = {
-	products: [
-		{
-			id: 2,
-			quantity: 1,
-		},
-		{
-			id: 4,
-			quantity: 2,
-		},
-	],
+	products: [],
 };
 
 export const CartContent = React.createContext();
 
-export const Store = ({ children }) => {
+export const CartDetails = ({ children }) => {
 	const [state, setState] = useState(productsInCart);
 
 	const addProductToCartList = (productId) => {

@@ -3,7 +3,7 @@ import { getProductById } from "../services/productService";
 import Functionstripe from "./TestAPI";
 import { Link } from "react-router-dom";
 import { useEffect, useState, useContext } from "react";
-import { CartContent } from "../Store";
+import { CartContent } from "../CartDetails";
 
 export default function ProductDetail(props) {
 	const [productDetail, setProductDetail] = useState(null);

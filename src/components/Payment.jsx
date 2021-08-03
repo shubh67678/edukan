@@ -9,7 +9,7 @@ import {
 	useElements,
 } from "@stripe/react-stripe-js";
 import { useEffect, useState, useContext } from "react";
-import { CartContent } from "../Store";
+import { CartContent } from "../CartDetails";
 
 import { Container } from "react-bootstrap";
 import {
@@ -18,7 +18,12 @@ import {
 	SendProductDataToStripe,
 } from "../services/sendProductData";
 
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 const handleServerResponse = async (response, stripe, Cart) => {
+	const notify = () => toast.success("Order placed successfully!");
+
 	if (response.data["error"]) {
 		// Show error from server on payment form
 	} else if (response.data["requires_action"]) {
@@ -39,9 +44,11 @@ const handleServerResponse = async (response, stripe, Cart) => {
 				Cart
 			);
 			console.log(payment_request_response);
+			handleServerResponse(payment_request_response);
 		}
 	} else {
 		// Show success message
+		notify();
 	}
 };
 

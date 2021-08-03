@@ -9,7 +9,6 @@ import {
 	useElements,
 } from "@stripe/react-stripe-js";
 import { useEffect, useState, useContext } from "react";
-import { CartContent } from "../Store";
 
 import { Container } from "react-bootstrap";
 import {

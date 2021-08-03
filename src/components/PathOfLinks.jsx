@@ -52,8 +52,7 @@ export default function PathOfLinks() {
 						path="/order_edit_form/:id"
 						component={CallOrderEdit}
 					/>
-					{/* <Route path="/payment" component={Functionstripe} /> */}
-					<Route path="/payment-test" component={Functionstripe} />
+					<Route path="/payment" component={Functionstripe} />
 					<Route path="/testHook" component={TestHook} />
 				</Switch>
 			</div>

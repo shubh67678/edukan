@@ -1,13 +1,13 @@
 import React, { Component } from "react";
 
-import { Store } from "./Store";
+import { CartDetails } from "./CartDetails";
 import PathOfLinks from "./components/PathOfLinks";
 class App extends Component {
 	render() {
 		return (
-			<Store>
+			<CartDetails>
 				<PathOfLinks />
-			</Store>
+			</CartDetails>
 		);
 	}
 }

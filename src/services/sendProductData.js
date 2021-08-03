@@ -1,7 +1,7 @@
 import http from "./httpService";
 import { apiUrl } from "../config.json";
 import { useEffect, useState, useContext } from "react";
-import { CartContent } from "../Store";
+import { CartContent } from "../CartDetails";
 
 const apiEndpoint = apiUrl + "/stripe_payment/";
 
