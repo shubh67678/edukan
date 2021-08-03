@@ -18,6 +18,7 @@ import {
 } from "../services/sendProductData";
 
 import CheckoutForm from "./Payment";
+import Cart from "./Cart";
 
 // Make sure to call `loadStripe` outside of a component’s render to avoid
 // recreating the `Stripe` object on every render.
@@ -28,9 +29,12 @@ const stripePromise = loadStripe(PUBLISHABLE_KEY);
 
 function Functionstripe() {
 	return (
-		<Elements stripe={stripePromise}>
-			<CheckoutForm />
-		</Elements>
+		<>
+			<Cart />
+			<Elements stripe={stripePromise}>
+				<CheckoutForm />
+			</Elements>
+		</>
 	);
 }
 

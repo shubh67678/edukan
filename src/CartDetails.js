@@ -12,7 +12,7 @@ export const CartDetails = ({ children }) => {
 
 	const addProductToCartList = (toAddProductDetails) => {
 		const toAddProductId = parseInt(toAddProductDetails["id"], 10); //convert to int
-		console.log(toAddProductDetails);
+		// console.log(toAddProductDetails);
 		const copyState = state;
 		var incrementQuantity = false;
 
@@ -34,7 +34,7 @@ export const CartDetails = ({ children }) => {
 	};
 
 	return (
-		<CartContent.Provider value={[state, addProductToCartList]}>
+		<CartContent.Provider value={[state, addProductToCartList, setState]}>
 			{children}
 		</CartContent.Provider>
 	);

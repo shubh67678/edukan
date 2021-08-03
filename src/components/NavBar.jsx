@@ -51,9 +51,6 @@ const NavBar = () => {
 								<Button variant="outline-dark">SignUp</Button>
 							</Link>
 						)}
-						<Button variant="outline-dark" onClick={printCart}>
-							printCart
-						</Button>
 					</Nav>
 				</Navbar.Collapse>
 			</Container>

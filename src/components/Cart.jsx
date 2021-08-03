@@ -9,9 +9,15 @@ import { Route, Switch, Link } from "react-router-dom";
 import Product from "../components/Product";
 import { getAllProducts } from "../services/productService";
 
+function useForceUpdate() {
+	const [value, setValue] = useState(0); // integer state
+	return () => setValue((value) => value + 1); // update the state to force render
+}
 export default function Cart() {
-	const [Cart, addToCart] = useContext(CartContent);
+	const forceUpdate = useForceUpdate();
+	const [Cart, addToCart, setCart] = useContext(CartContent);
 	const [productsInCart, setProductsInCarts] = useState([]);
+	const [testConditionalRefresh, testSet] = useState(0);
 
 	const findTotalCost = () => {
 		var totalCost = 0;
@@ -23,13 +29,39 @@ export default function Cart() {
 		return totalCost;
 	};
 
+	const alterQuantityOfProduct = (
+		productToAlterQuantity,
+		newQuantityOfProduct
+	) => {
+		console.log(productToAlterQuantity, newQuantityOfProduct);
+		const copyState = Cart;
+		if (newQuantityOfProduct < 0) {
+			newQuantityOfProduct = 0;
+		}
+
+		for (var i = 0; i < copyState.products.length; i++) {
+			if (copyState.products[i]["id"] == productToAlterQuantity["id"]) {
+				copyState.products[i]["quantity"] = newQuantityOfProduct;
+				break;
+			}
+		}
+		setCart(copyState);
+		forceUpdate();
+	};
+
 	useEffect(() => {
 		setProductsInCarts(Cart["products"]);
+	}, [setCart]);
+	useEffect(() => {
+		console.log("changed", testConditionalRefresh);
 	}, [Cart]);
 
-	console.log(Cart);
 	return (
 		<React.Fragment>
+			<Button onClick={() => testSet(testConditionalRefresh + 1)}>
+				test
+			</Button>
+			<p>{testConditionalRefresh}</p>
 			<Table responsive="sm">
 				<thead>
 					<tr>
@@ -37,6 +69,7 @@ export default function Cart() {
 						<th>Price</th>
 						<th>Quantity</th>
 						<th>Sub-Total</th>
+						<th>Edit</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -48,6 +81,28 @@ export default function Cart() {
 							<td>
 								{cur_product.product_details.price *
 									cur_product.quantity}
+							</td>
+							<td>
+								<Button
+									variant="outline-dark"
+									onClick={() =>
+										alterQuantityOfProduct(
+											cur_product,
+											cur_product.quantity - 1
+										)
+									}>
+									-
+								</Button>
+								<Button
+									variant="outline-dark"
+									onClick={() =>
+										alterQuantityOfProduct(
+											cur_product,
+											cur_product.quantity + 1
+										)
+									}>
+									+
+								</Button>
 							</td>
 						</tr>
 					))}
