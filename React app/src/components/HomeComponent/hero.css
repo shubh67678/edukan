@@ -1,0 +1,12 @@
+.hero-banner h1 {
+	font-size: 48px;
+}
+.hero-banner .btn {
+	position: relative;
+	overflow: hidden;
+	z-index: 9;
+}
+
+.hero-banner .btn:hover:before {
+	width: 100%;
+}

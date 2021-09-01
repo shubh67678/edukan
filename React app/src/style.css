@@ -1,0 +1,16 @@
+.photo {
+	height: 300px;
+	width: 300px;
+}
+.photo-detail {
+	height: 400px;
+	width: 400px;
+}
+
+.form {
+	width: 100%;
+	max-width: 330px;
+	padding: 15px;
+	margin: auto;
+	height: 100%;
+}
