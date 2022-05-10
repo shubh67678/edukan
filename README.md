@@ -1,6 +1,7 @@
 # E-Dukan
 ecommerce website for getting small businesses online 
 
+### Live website: [edukan.tk](https://edukan.tk/)
 ## Er diagram 
 
 This is the er diagram for the database 
