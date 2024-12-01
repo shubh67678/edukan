@@ -74,7 +74,7 @@ class Order(models.Model):
     address = models.ForeignKey(Address,on_delete=SET_NULL,null=True)
     payment = models.IntegerField(null = True,blank=True)
     status = models.CharField(max_length=20,default = "pending")
-    ordered_on = models.DateTimeField(editable=False,null = True,blank=True)
+    ordered_on = models.String(editable=False,null = True,blank=True)
     delivered_on = models.DateTimeField(null = True,blank=True)
     def save(self, *args, **kwargs):
         '''add timestamps for creation'''
@@ -88,3 +88,6 @@ class Order(models.Model):
 # def create_auth_token(sender,instance=None,created=False,**kwargs):
 #     if created:
 #         Token.objects.create(user=instance)
+
+
+
