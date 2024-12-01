@@ -64,7 +64,7 @@ def generate_response(intent):
         # Handle post-payment fulfillment
         return Response(data = {'success': True,},
             status= status.HTTP_200_OK)
-    else:
+    elif intent.status == "pending":
         # Invalid status
         return Response(data = {'error': 'Invalid PaymentIntent status',},
             status= status.HTTP_500_INTERNAL_SERVER_ERROR)
